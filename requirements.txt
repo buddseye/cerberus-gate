@@ -1,0 +1,4 @@
+pyhive
+pandas
+pyyaml
+cerberus
