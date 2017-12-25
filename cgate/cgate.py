@@ -3,8 +3,8 @@
 import sys
 import argparse
 
-from reader import readfile, readschema
-from validation import validate
+from cgate.reader import readfile, readschema
+from cgate.validation import validate
 
 def main():
     parser = argparse.ArgumentParser()
