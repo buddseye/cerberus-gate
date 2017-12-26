@@ -33,7 +33,7 @@ def readtable(table):
 def readfile(path, header):
     delimiter = check_delimiter(path)
     f = pandas.read_csv(path,
-                        na_values=['NULL'],
+                        na_values=['NULL',''],
                         keep_default_na=False,
                         names=header,
                         sep=delimiter,
