@@ -37,7 +37,8 @@ def readfile(path, header):
                         keep_default_na=False,
                         names=header,
                         sep=delimiter,
-                        iterator=True)
+                        iterator=True,
+                        chunksize=100000)
     for df in f:
         for row in df.itertuples():
             yield {col: getattr(row, col) for col in df}
