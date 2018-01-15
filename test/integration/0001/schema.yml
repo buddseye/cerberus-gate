@@ -1,0 +1,11 @@
+header:
+  - col1
+  - col2
+  - col3
+schema:
+  col1:
+    allowed: ['aaa','bbb','ccc']
+  col2:
+    allowed: [0,1,2]
+  col3:
+    allowed: [true,false]

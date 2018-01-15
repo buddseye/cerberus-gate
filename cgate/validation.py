@@ -12,8 +12,8 @@ def validate(rows, schema):
         line_count += 1
         if not v.validate(row):
             errors = {
-                'error': v.errors,
                 'line': line_count,
+                'error': v.errors,
                 'row': row
             }
             print(errors)
