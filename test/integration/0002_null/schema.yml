@@ -4,11 +4,10 @@ header:
   - col3
 schema:
   col1:
-    nullable: True
-    allowed: ['aaa','bbb','ccc']
+    allowed: ['','aaa','bbb','ccc']
   col2:
-    nullable: True
+    nullable: true
     allowed: [0,1,2]
   col3:
-    nullable: True
+    nullable: true
     allowed: [true,false]

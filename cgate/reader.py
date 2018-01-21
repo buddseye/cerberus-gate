@@ -29,13 +29,18 @@ def readtable(table):
     pass
 
 
-def readfile(path, header=None, dtype=None, parse_dates=None):
+DEFAULT_NAN_LIST = [
+    'NULL',
+    '\\N',
+]
+def readfile(path, header=None, dtype=None, parse_dates=None, na_values=DEFAULT_NAN_LIST):
     delimiter = check_delimiter(path)
     f = pd.read_csv(path,
                     names=header,
                     sep=delimiter,
                     dtype=dtype,
-                    na_values=['\\N'],
+                    na_values=na_values,
+                    keep_default_na=False,
                     parse_dates=parse_dates,
                     iterator=True,
                     chunksize=100000)
@@ -66,6 +71,7 @@ def dtype_from(cerberus_type):
         return CERBERUS_TO_PANDAS_TYPE[cerberus_type]
     except:
         return 'object'
+
 
 def get_dtype(schema):
     dtypes = {}
