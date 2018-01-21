@@ -1,0 +1,17 @@
+header:
+  - col1
+  - col2
+  - col3
+  - col4
+  - col5
+schema:
+  col1:
+    type: string
+  col2:
+    type: integer
+  col3:
+    type: float
+  col4:
+    type: date
+  col5:
+    type: datetime

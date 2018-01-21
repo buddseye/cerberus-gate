@@ -1,0 +1,14 @@
+header:
+  - col1
+  - col2
+  - col3
+schema:
+  col1:
+    nullable: True
+    allowed: ['aaa','bbb','ccc']
+  col2:
+    nullable: True
+    allowed: [0,1,2]
+  col3:
+    nullable: True
+    allowed: [true,false]

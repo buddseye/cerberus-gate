@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import yaml
 import gzip
 
@@ -29,17 +29,51 @@ def readtable(table):
     pass
 
 
-def readfile(path, header):
+def readfile(path, header=None, dtype=None, parse_dates=None):
     delimiter = check_delimiter(path)
-    f = pandas.read_csv(path,
-                        names=header,
-                        sep=delimiter,
-                        iterator=True,
-                        chunksize=100000)
+    f = pd.read_csv(path,
+                    names=header,
+                    sep=delimiter,
+                    dtype=dtype,
+                    na_values=['\\N'],
+                    parse_dates=parse_dates,
+                    iterator=True,
+                    chunksize=100000)
     for df in f:
-        for row in df.fillna('').itertuples():
+        for row in df.where(pd.notnull(df), None).itertuples():
             yield {col: getattr(row, col) for col in df}
 
 
 def readschema(path):
     return yaml.load(open(path))
+
+
+CERBERUS_TO_PANDAS_TYPE = {
+    'boolean': 'bool',
+    'binary': 'object',
+    'date': 'str',
+    'datetime': 'str',
+    'dict': 'object',
+    'float': 'float64',
+    'integer': 'int64',
+    'list': 'list',
+    'number': 'float',
+    'set': 'object',
+    'string': 'str',
+}
+def dtype_from(cerberus_type):
+    try:
+        return CERBERUS_TO_PANDAS_TYPE[cerberus_type]
+    except:
+        return 'object'
+
+def get_dtype(schema):
+    dtypes = {}
+    date_cols = []
+    for key, value in schema.items():
+        if 'type' not in value:
+            continue
+        dtypes[key] = dtype_from(value['type'])
+        if value['type'] in ('date', 'datetime'):
+            date_cols.append(key)
+    return dtypes, date_cols

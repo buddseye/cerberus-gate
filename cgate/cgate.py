@@ -3,7 +3,7 @@
 import sys
 import argparse
 
-from cgate.reader import readfile, readschema
+from cgate.reader import readfile, readschema, get_dtype
 from cgate.validation import validate
 
 def main():
@@ -17,8 +17,9 @@ def main():
         header = schema['header']
     except:
         header = None
-    rows = readfile(args.target, header=header)
-    fail_count = validate(rows, schema['schema'])
+    dtype, date_cols = get_dtype(schema['schema'])
+    dfs = readfile(args.target, header=header, dtype=dtype, parse_dates=date_cols)
+    fail_count = validate(dfs, schema['schema'])
     if fail_count != 0:
         print('Failed {0} error...'.format(fail_count), file=sys.stderr)
         return 1
